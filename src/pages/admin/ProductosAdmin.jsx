@@ -183,7 +183,7 @@ const ProductosAdmin = () => {
                     </td>
                     <td className="px-6 py-4 text-gray-300 font-inter">{producto.categoria}</td>
                     <td className="px-6 py-4 text-neon-green font-orbitron font-bold">
-                      ${producto.precio.toFixed(2)}
+                      S/{producto.precio.toFixed(2)}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`font-inter ${producto.stock < 5 ? 'text-red-400' : 'text-gray-300'}`}>

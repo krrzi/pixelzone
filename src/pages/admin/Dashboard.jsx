@@ -88,7 +88,7 @@ const Dashboard = () => {
   const tarjetasPrimeraFila = [
     {
       titulo: 'Ventas Totales',
-      valor: `$${ventasTotales.toFixed(2)}`,
+      valor: `S/${ventasTotales.toFixed(2)}`,
       color: 'text-neon-green',
       icono: '💰',
     },
@@ -129,7 +129,7 @@ const Dashboard = () => {
     },
     {
       titulo: 'Ticket Promedio',
-      valor: `$${ticketPromedio.toFixed(2)}`,
+      valor: `S/${ticketPromedio.toFixed(2)}`,
       color: 'text-yellow-400',
       icono: '💳',
     },
@@ -243,7 +243,7 @@ const Dashboard = () => {
                       backgroundColor: '#0a0a0a',
                       border: '1px solid #39ff14',
                     }}
-                    formatter={(value) => [`$${value.toFixed(2)}`, 'Ventas']}
+                    formatter={(value) => [`S/${value.toFixed(2)}`, 'Ventas']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -288,7 +288,7 @@ const Dashboard = () => {
                   {pedidosPendientesAntiguos.map(pedido => (
                     <li key={pedido.id} className="text-gray-300 font-inter flex justify-between">
                       <span>Pedido #{pedido.id} - {pedido.cliente}</span>
-                      <span className="text-yellow-400 font-bold">${pedido.total.toFixed(2)}</span>
+                      <span className="text-yellow-400 font-bold">S/${pedido.total.toFixed(2)}</span>
                     </li>
                   ))}
                 </ul>

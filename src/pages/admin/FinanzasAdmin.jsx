@@ -5,12 +5,12 @@ import { PedidosContext } from '../../context/PedidosContext';
 const FinanzasAdmin = () => {
   const { pedidos } = useContext(PedidosContext);
 
-  // Cálculos financieros
-  const ingresosTotales = pedidos.reduce((total, pedido) => total + pedido.total, 0);
+  const ingresosTotales = pedidos.reduce((total, pedido) => total + Number(pedido.total), 0);
   const costosEstimados = ingresosTotales * 0.6;
   const margenGanancia = ingresosTotales - costosEstimados;
 
-  // Datos para la gráfica de barras (4 semanas ficticias)
+  const formatSoles = (valor) => 'S/' + valor.toFixed(2);
+
   const datosFlujoCaja = [
     { semana: 'Semana 1', ingresos: 4500, costos: 2700, ganancia: 1800 },
     { semana: 'Semana 2', ingresos: 5200, costos: 3120, ganancia: 2080 },
@@ -25,29 +25,27 @@ const FinanzasAdmin = () => {
           Finanzas
         </h1>
 
-        {/* Tarjetas de KPIs */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-dark-bg border border-neon-green/30 rounded-lg p-6">
             <h3 className="text-gray-400 font-inter text-sm mb-2">Ingresos Totales</h3>
             <p className="text-neon-green font-orbitron text-3xl font-bold">
-              ${ingresosTotales.toFixed(2)}
+              {formatSoles(ingresosTotales)}
             </p>
           </div>
           <div className="bg-dark-bg border border-neon-green/30 rounded-lg p-6">
             <h3 className="text-gray-400 font-inter text-sm mb-2">Costos Estimados</h3>
             <p className="text-red-400 font-orbitron text-3xl font-bold">
-              ${costosEstimados.toFixed(2)}
+              {formatSoles(costosEstimados)}
             </p>
           </div>
           <div className="bg-dark-bg border border-neon-green/30 rounded-lg p-6">
             <h3 className="text-gray-400 font-inter text-sm mb-2">Margen de Ganancia</h3>
             <p className="text-green-400 font-orbitron text-3xl font-bold">
-              ${margenGanancia.toFixed(2)}
+              {formatSoles(margenGanancia)}
             </p>
           </div>
         </div>
 
-        {/* Gráfica de Barras */}
         <div className="bg-dark-bg border border-neon-green/30 rounded-lg p-6">
           <h2 className="text-neon-green font-orbitron text-xl font-bold mb-6">
             Flujo de Caja por Semana
@@ -63,6 +61,7 @@ const FinanzasAdmin = () => {
                     backgroundColor: '#0a0a0a',
                     border: '1px solid #39ff14'
                   }}
+                  formatter={(value) => ['S/' + value.toFixed(2), '']}
                 />
                 <Bar dataKey="ingresos" fill="#39ff14" name="Ingresos" />
                 <Bar dataKey="costos" fill="#ef4444" name="Costos" />

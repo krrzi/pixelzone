@@ -135,7 +135,7 @@ const Perfil = () => {
             <div className="text-4xl mb-3">💰</div>
             <h3 className="text-gray-400 font-inter text-sm">Total Gastado</h3>
             <p className="text-neon-green font-orbitron text-2xl font-bold mt-2">
-              ${totalGastado.toFixed(2)}
+              S/${totalGastado.toFixed(2)}
             </p>
           </div>
 
@@ -244,7 +244,7 @@ const Perfil = () => {
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-white font-inter truncate">{producto.nombre}</p>
-                        <p className="text-neon-green font-orbitron font-bold">${producto.precio.toFixed(2)}</p>
+                        <p className="text-neon-green font-orbitron font-bold">S/{producto.precio.toFixed(2)}</p>
                       </div>
                       <div className="flex gap-2">
                         <button
@@ -315,7 +315,7 @@ const Perfil = () => {
                             {pedido.estado}
                           </span>
                           <span className="text-neon-green font-orbitron font-bold text-lg">
-                            ${pedido.total.toFixed(2)}
+                            S/{pedido.total.toFixed(2)}
                           </span>
                           <span className="text-neon-green text-2xl transition-transform duration-300" style={{ transform: pedidoExpandido === pedido.id ? 'rotate(180deg)' : 'rotate(0)' }}>
                             ▼
@@ -331,7 +331,7 @@ const Perfil = () => {
                               {pedido.productos.map((prod, idx) => (
                                 <div key={idx} className="flex justify-between items-center text-gray-300 font-inter">
                                   <span>{prod.cantidad}x {prod.nombre}</span>
-                                  <span>${(prod.cantidad * prod.precio).toFixed(2)}</span>
+                                  <span>S/{(prod.cantidad * prod.precio).toFixed(2)}</span>
                                 </div>
                               ))}
                             </div>

@@ -131,7 +131,7 @@ const Carrito = () => {
               </p>
               <p className="text-gray-300 font-inter">
                 <span className="text-neon-green font-bold">Total: </span>
-                ${pedidoConfirmado.total.toFixed(2)}
+                S/${pedidoConfirmado.total.toFixed(2)}
               </p>
               <p className="text-gray-300 font-inter">
                 <span className="text-neon-green font-bold">Productos: </span>
@@ -311,7 +311,7 @@ const Carrito = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between text-gray-300 font-inter">
                     <span>Subtotal</span>
-                    <span>${getCartTotal().toFixed(2)}</span>
+                    <span>S/{getCartTotal().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-gray-300 font-inter">
                     <span>Envío</span>
@@ -320,7 +320,7 @@ const Carrito = () => {
                   <hr className="border-neon-green/30" />
                   <div className="flex justify-between text-neon-green font-orbitron font-bold text-xl">
                     <span>Total</span>
-                    <span>${getCartTotal().toFixed(2)}</span>
+                    <span>S/{getCartTotal().toFixed(2)}</span>
                   </div>
                 </div>
                 <button
@@ -364,7 +364,7 @@ const Carrito = () => {
                   {item.nombre}
                 </h3>
                 <p className="text-neon-green font-orbitron font-bold">
-                  ${item.precio.toFixed(2)}
+                  S/{item.precio.toFixed(2)}
                 </p>
 
                 <div className="flex items-center gap-4 mt-2">
@@ -389,7 +389,7 @@ const Carrito = () => {
 
               <div className="text-right">
                 <p className="text-white font-orbitron font-bold">
-                  ${(item.precio * item.cantidad).toFixed(2)}
+                  S/{(item.precio * item.cantidad).toFixed(2)}
                 </p>
                 <button
                   onClick={() => removeFromCart(item.id)}
@@ -410,7 +410,7 @@ const Carrito = () => {
               <div className="space-y-3">
                 <div className="flex justify-between text-gray-300 font-inter">
                   <span>Subtotal</span>
-                  <span>${getCartTotal().toFixed(2)}</span>
+                  <span>S/{getCartTotal().toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-300 font-inter">
                   <span>Envío</span>
@@ -419,7 +419,7 @@ const Carrito = () => {
                 <hr className="border-neon-green/30" />
                 <div className="flex justify-between text-neon-green font-orbitron font-bold text-xl">
                   <span>Total</span>
-                  <span>${getCartTotal().toFixed(2)}</span>
+                  <span>S/{getCartTotal().toFixed(2)}</span>
                 </div>
               </div>
               <button

@@ -94,7 +94,7 @@ const ClientesAdmin = () => {
                           </p>
                         </div>
                         <span className="text-neon-green font-orbitron font-bold text-xl">
-                          ${pedido.total.toFixed(2)}
+                          S/{pedido.total.toFixed(2)}
                         </span>
                       </div>
                       <div className="border-t border-neon-green/20 pt-3">

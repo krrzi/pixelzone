@@ -8,21 +8,24 @@ import { ProductsProvider } from './context/ProductsContext.jsx'
 import { PedidosProvider } from './context/PedidosContext.jsx'
 import { ClientsProvider } from './context/ClientsContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
+import { ToastProvider } from './context/ToastContext.jsx'
 import { useContext } from 'react'
 import { PedidosContext } from './context/PedidosContext.jsx'
 import { AuthContext } from './context/AuthContext.jsx'
 
 const AppWithProviders = () => {
   return (
-    <AuthProvider>
-      <CartProvider>
+    <ToastProvider>
+      <AuthProvider>
         <ProductsProvider>
-          <PedidosProvider>
-            <ClientsProviderWrapper />
-          </PedidosProvider>
+          <CartProvider>
+            <PedidosProvider>
+              <ClientsProviderWrapper />
+            </PedidosProvider>
+          </CartProvider>
         </ProductsProvider>
-      </CartProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 };
 

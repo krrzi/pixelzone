@@ -78,7 +78,7 @@ const ArmarSetup = () => {
     }
 
     if (excedido) {
-      setMensajeError(`El presupuesto $${presupuesto.toFixed(2)} es insuficiente para un setup con estas categorías. Intenta quitar una categoría o aumentar el presupuesto.`);
+      setMensajeError(`El presupuesto S/{presupuesto.toFixed(2)} es insuficiente para un setup con estas categorías. Intenta quitar una categoría o aumentar el presupuesto.`);
       setSetupRecomendado(null);
       return;
     }
@@ -126,13 +126,13 @@ const ArmarSetup = () => {
           {/* Budget Slider */}
           <div className="mb-8">
             <label className="block text-gray-300 font-inter mb-3">
-              Presupuesto: $${presupuesto.toFixed(2)}
+              Presupuesto: S/{presupuesto.toFixed(2)}
             </label>
             <input
               type="range"
-              min="20"
-              max="1000"
-              step="10"
+              min="100"
+              max="10000"
+              step="50"
               value={presupuesto}
               onChange={(e) => {
                 setPresupuesto(Number(e.target.value));
@@ -142,9 +142,9 @@ const ArmarSetup = () => {
               className="w-full accent-neon-green"
             />
             <div className="flex justify-between text-gray-500 text-sm font-inter mt-2">
-              <span>$20</span>
-              <span>$500</span>
-              <span>$1000</span>
+              <span>S/100</span>
+              <span>S/5000</span>
+              <span>S/10000</span>
             </div>
           </div>
 
@@ -193,7 +193,7 @@ const ArmarSetup = () => {
               <div className="text-right">
                 <p className="text-gray-400 font-inter text-sm">Total</p>
                 <p className="text-white font-orbitron text-3xl font-bold">
-                  $${setupRecomendado.total.toFixed(2)}
+                  S/{setupRecomendado.total.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -213,7 +213,7 @@ const ArmarSetup = () => {
                   />
                   <p className="text-white font-inter font-bold truncate mb-2">{prod.nombre}</p>
                   <p className="text-neon-green font-orbitron font-bold">
-                    $${prod.precio.toFixed(2)}
+                    S/{prod.precio.toFixed(2)}
                   </p>
                 </div>
               ))}

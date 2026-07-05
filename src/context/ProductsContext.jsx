@@ -1,16 +1,11 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 import { productos as productosIniciales } from '../data/productos';
 
 export const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
-  // Siempre usar los productos iniciales primero para asegurarse de tener las actualizaciones más recientes
+  // Usar siempre productosIniciales como fuente de verdad
   const [productos, setProductos] = useState(productosIniciales);
-
-  // Persistir en localStorage cuando cambien los productos
-  useEffect(() => {
-    localStorage.setItem('pixelzone-productos', JSON.stringify(productos));
-  }, [productos]);
 
   // Función para agregar un producto
   const agregarProducto = (nuevoProducto) => {

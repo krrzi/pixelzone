@@ -64,7 +64,7 @@ const Producto = () => {
             </div>
 
             <div className="text-neon-green font-orbitron text-3xl font-bold">
-              ${producto.precio.toFixed(2)}
+              S/{producto.precio.toFixed(2)}
             </div>
 
             <p className="text-gray-300 font-inter leading-relaxed">

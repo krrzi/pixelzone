@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({ email: '', password: '', general: '' });
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -15,15 +15,44 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
+  const validateForm = () => {
+    const newErrors = { email: '', password: '', general: '' };
+    let isValid = true;
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      newErrors.email = 'El email es obligatorio';
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = 'El email no tiene un formato válido';
+      isValid = false;
+    }
+
+    // Validar password
+    if (!password) {
+      newErrors.password = 'La contraseña es obligatoria';
+      isValid = false;
+    } else if (password.length < 6) {
+      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
+    setErrors({ email: '', password: '', general: '' });
+
+    if (!validateForm()) return;
 
     const success = login(email, password);
     if (success) {
       navigate('/');
     } else {
-      setError('Credenciales incorrectas');
+      setErrors({ ...errors, general: 'Credenciales incorrectas' });
     }
   };
 
@@ -41,9 +70,9 @@ const Login = () => {
 
         <div className="bg-dark-bg border border-neon-green/30 rounded-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
+            {errors.general && (
               <div className="bg-red-400/10 border border-red-400 text-red-400 px-4 py-3 rounded font-inter">
-                {error}
+                {errors.general}
               </div>
             )}
 
@@ -56,10 +85,12 @@ const Login = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-dark-bg border border-neon-green/30 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-green font-inter"
+                className={`w-full bg-dark-bg border px-4 py-3 rounded-lg focus:outline-none font-inter ${errors.email ? 'border-red-400' : 'border-neon-green/30 focus:border-neon-green'}`}
                 placeholder="tu@email.com"
-                required
               />
+              {errors.email && (
+                <p className="text-red-400 text-sm mt-2 font-inter">{errors.email}</p>
+              )}
             </div>
 
             <div>
@@ -71,10 +102,12 @@ const Login = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-dark-bg border border-neon-green/30 text-white px-4 py-3 rounded-lg focus:outline-none focus:border-neon-green font-inter"
+                className={`w-full bg-dark-bg border px-4 py-3 rounded-lg focus:outline-none font-inter ${errors.password ? 'border-red-400' : 'border-neon-green/30 focus:border-neon-green'}`}
                 placeholder="••••••••"
-                required
               />
+              {errors.password && (
+                <p className="text-red-400 text-sm mt-2 font-inter">{errors.password}</p>
+              )}
             </div>
 
             <button

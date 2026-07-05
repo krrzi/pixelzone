@@ -78,7 +78,7 @@ const PedidosAdmin = () => {
                       ))}
                     </td>
                     <td className="px-6 py-4 text-neon-green font-orbitron font-bold">
-                      ${pedido.total.toFixed(2)}
+                      S/{pedido.total.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 text-gray-300 font-inter">
                       {new Date(pedido.fecha).toLocaleDateString()}
