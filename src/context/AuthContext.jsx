@@ -1,9 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-
-const usuarios = [
-  { id: 1, nombre: "Bruno Villena", email: "cliente@pixelzone.com", password: "cliente123", rol: "cliente" },
-  { id: 2, nombre: "Admin PixelZone", email: "admin@pixelzone.com", password: "admin123", rol: "admin" }
-];
+import { usuarios } from '../data/usuarios';
 
 export const AuthContext = createContext();
 
@@ -12,15 +8,16 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const usuarioLocal = localStorage.getItem('usuario');
-    if (usuarioLocal) {
-      setUsuario(JSON.parse(usuarioLocal));
-    }
+    // Limpiamos TODO localStorage para asegurarnos de que no haya datos corruptos
+    localStorage.clear();
     setLoading(false);
   }, []);
 
   const login = (email, password) => {
+    console.log('Intentando login con:', { email, password });
+    console.log('Usuarios disponibles:', usuarios);
     const usuarioEncontrado = usuarios.find(u => u.email === email && u.password === password);
+    console.log('Usuario encontrado:', usuarioEncontrado);
     if (usuarioEncontrado) {
       const usuarioData = { ...usuarioEncontrado, ultimaConexion: new Date().toISOString() };
       setUsuario(usuarioData);
@@ -38,6 +35,14 @@ export const AuthProvider = ({ children }) => {
   const isAuthenticated = () => usuario !== null;
   const isAdmin = () => usuario?.rol === 'admin';
   const isCliente = () => usuario?.rol === 'cliente';
+  const isProveedor = () => usuario?.rol === 'proveedor';
+  const isMarketing = () => usuario?.rol === 'marketing';
+  const isLogistica = () => usuario?.rol === 'logistica';
+  const isSoporte = () => usuario?.rol === 'soporte';
+  const hasRole = (roles) => {
+    if (!usuario) return false;
+    return roles.includes(usuario.rol);
+  };
 
   return (
     <AuthContext.Provider value={{
@@ -47,7 +52,12 @@ export const AuthProvider = ({ children }) => {
       logout,
       isAuthenticated,
       isAdmin,
-      isCliente
+      isCliente,
+      isProveedor,
+      isMarketing,
+      isLogistica,
+      isSoporte,
+      hasRole
     }}>
       {children}
     </AuthContext.Provider>

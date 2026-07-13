@@ -5,6 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { ProductsContext } from '../../context/ProductsContext';
 import { PedidosContext } from '../../context/PedidosContext';
 import { ClientsContext } from '../../context/ClientsContext';
+import { MarketingContext } from '../../context/MarketingContext';
 
 const Carrito = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart();
@@ -12,6 +13,7 @@ const Carrito = () => {
   const { productos, actualizarStock } = useContext(ProductsContext);
   const { agregarPedido } = useContext(PedidosContext);
   const { registrarCompraCliente } = useContext(ClientsContext);
+  const { validarCupon, incrementarUso } = useContext(MarketingContext);
   const navigate = useNavigate();
 
   // Checkout states
@@ -20,6 +22,27 @@ const Carrito = () => {
   const [tarjeta, setTarjeta] = useState({ numero: '', fecha: '', cvv: '' });
   const [loading, setLoading] = useState(false);
   const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
+
+  // Coupon states
+  const [codigoCupon, setCodigoCupon] = useState('');
+  const [cuponAplicado, setCuponAplicado] = useState(null);
+  const [mensajeCupon, setMensajeCupon] = useState({ texto: '', tipo: '' });
+
+  const calcularDescuento = () => {
+    if (!cuponAplicado) return 0;
+    const subtotal = getCartTotal();
+    if (cuponAplicado.tipo === 'porcentaje') {
+      return subtotal * (cuponAplicado.valor / 100);
+    } else {
+      return Math.min(cuponAplicado.valor, subtotal);
+    }
+  };
+
+  const getTotalConDescuento = () => {
+    const subtotal = getCartTotal();
+    const descuento = calcularDescuento();
+    return Math.max(0, subtotal - descuento);
+  };
 
   // Validación tarjeta
   const validarTarjeta = () => {
@@ -56,8 +79,13 @@ const Carrito = () => {
       }
     });
 
-    // Paso 2: Crear pedido
-    const total = getCartTotal();
+    // Paso 2: Incrementar uso del cupón si hay uno aplicado
+    if (cuponAplicado) {
+      incrementarUso(cuponAplicado.codigo);
+    }
+
+    // Paso 3: Crear pedido
+    const total = getTotalConDescuento();
     const nuevoPedido = {
       cliente: usuario.nombre,
       email: usuario.email,
@@ -70,20 +98,36 @@ const Carrito = () => {
       total: total,
       fecha: new Date().toISOString().split('T')[0],
       estado: 'pendiente',
-      metodoPago: metodoPago
+      metodoPago: metodoPago,
+      cuponAplicado: cuponAplicado?.codigo || null
     };
     const pedidoCreado = agregarPedido(nuevoPedido);
 
-    // Paso 3: Actualizar cliente
+    // Paso 4: Actualizar cliente
     registrarCompraCliente(usuario.email, usuario.nombre, pedidoCreado.id, total);
 
-    // Paso 4: Vaciar carrito
+    // Paso 5: Vaciar carrito
     clearCart();
 
-    // Paso 5: Mostrar confirmación
+    // Paso 6: Mostrar confirmación
     setPedidoConfirmado(pedidoCreado);
     setPaso('confirmacion');
     setLoading(false);
+  };
+
+  const handleAplicarCupon = () => {
+    if (!codigoCupon.trim()) {
+      setMensajeCupon({ texto: 'Por favor, ingresa un código de cupón', tipo: 'error' });
+      return;
+    }
+    const cupon = validarCupon(codigoCupon);
+    if (cupon) {
+      setCuponAplicado(cupon);
+      setMensajeCupon({ texto: `Cupón ${cupon.codigo} aplicado: -S/${calcularDescuento().toFixed(2)}`, tipo: 'exito' });
+    } else {
+      setMensajeCupon({ texto: 'Cupón inválido, vencido o agotado', tipo: 'error' });
+      setCuponAplicado(null);
+    }
   };
 
   const handleGoBack = () => {
@@ -313,6 +357,12 @@ const Carrito = () => {
                     <span>Subtotal</span>
                     <span>S/{getCartTotal().toFixed(2)}</span>
                   </div>
+                  {cuponAplicado && (
+                    <div className="flex justify-between text-green-400 font-inter">
+                      <span>Descuento ({cuponAplicado.codigo})</span>
+                      <span>-S/{calcularDescuento().toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-gray-300 font-inter">
                     <span>Envío</span>
                     <span>Gratis</span>
@@ -320,7 +370,7 @@ const Carrito = () => {
                   <hr className="border-neon-green/30" />
                   <div className="flex justify-between text-neon-green font-orbitron font-bold text-xl">
                     <span>Total</span>
-                    <span>S/{getCartTotal().toFixed(2)}</span>
+                    <span>S/{getTotalConDescuento().toFixed(2)}</span>
                   </div>
                 </div>
                 <button
@@ -407,11 +457,45 @@ const Carrito = () => {
               <h2 className="text-neon-green font-orbitron text-xl font-bold mb-4">
                 Resumen del Pedido
               </h2>
+
+              {/* Cupón de descuento */}
+              <div className="mb-4">
+                <label className="block text-gray-300 font-inter mb-2">¿Tienes un cupón de descuento?</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={codigoCupon}
+                    onChange={(e) => setCodigoCupon(e.target.value)}
+                    placeholder="Ingresa tu cupón"
+                    className="flex-1 bg-dark-bg border border-neon-green/30 text-white px-4 py-2 rounded-lg focus:outline-none focus:border-neon-green font-inter"
+                  />
+                  <button
+                    onClick={handleAplicarCupon}
+                    className="bg-neon-green text-dark-bg px-4 py-2 rounded-lg font-inter font-bold hover:bg-neon-green/80 transition-colors"
+                  >
+                    Aplicar
+                  </button>
+                </div>
+                {mensajeCupon.texto && (
+                  <p className={`mt-2 text-sm font-inter ${
+                    mensajeCupon.tipo === 'exito' ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {mensajeCupon.texto}
+                  </p>
+                )}
+              </div>
+
               <div className="space-y-3">
                 <div className="flex justify-between text-gray-300 font-inter">
                   <span>Subtotal</span>
                   <span>S/{getCartTotal().toFixed(2)}</span>
                 </div>
+                {cuponAplicado && (
+                  <div className="flex justify-between text-green-400 font-inter">
+                    <span>Descuento ({cuponAplicado.codigo})</span>
+                    <span>-S/{calcularDescuento().toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-gray-300 font-inter">
                   <span>Envío</span>
                   <span>Gratis</span>
@@ -419,7 +503,7 @@ const Carrito = () => {
                 <hr className="border-neon-green/30" />
                 <div className="flex justify-between text-neon-green font-orbitron font-bold text-xl">
                   <span>Total</span>
-                  <span>S/{getCartTotal().toFixed(2)}</span>
+                  <span>S/{getTotalConDescuento().toFixed(2)}</span>
                 </div>
               </div>
               <button

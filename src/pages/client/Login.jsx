@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { usuarios } from '../../data/usuarios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, usuario } = useAuth();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    if (isAuthenticated()) {
-      navigate('/');
+  const getRedirectUrl = (user) => {
+    switch (user?.rol) {
+      case 'admin':
+        return '/admin';
+      case 'proveedor':
+        return '/proveedor';
+      case 'marketing':
+        return '/marketing';
+      case 'logistica':
+        return '/logistica';
+      case 'soporte':
+        return '/soporte';
+      default:
+        return '/';
     }
-  }, [isAuthenticated, navigate]);
+  };
+
+  React.useEffect(() => {
+    if (isAuthenticated() && usuario) {
+      navigate(getRedirectUrl(usuario));
+    }
+  }, [isAuthenticated, usuario, navigate]);
 
   const validateForm = () => {
     const newErrors = { email: '', password: '', general: '' };
@@ -50,7 +68,8 @@ const Login = () => {
 
     const success = login(email, password);
     if (success) {
-      navigate('/');
+      const user = usuarios.find(u => u.email === email && u.password === password);
+      navigate(getRedirectUrl(user));
     } else {
       setErrors({ ...errors, general: 'Credenciales incorrectas' });
     }
@@ -128,6 +147,18 @@ const Login = () => {
               </div>
               <div className="text-gray-300 font-inter">
                 <span className="text-neon-green">Admin:</span> admin@pixelzone.com / admin123
+              </div>
+              <div className="text-gray-300 font-inter">
+                <span className="text-neon-green">Proveedor:</span> proveedor@pixelzone.com / proveedor123
+              </div>
+              <div className="text-gray-300 font-inter">
+                <span className="text-neon-green">Marketing:</span> marketing@pixelzone.com / marketing123
+              </div>
+              <div className="text-gray-300 font-inter">
+                <span className="text-neon-green">Logística:</span> logistica@pixelzone.com / logistica123
+              </div>
+              <div className="text-gray-300 font-inter">
+                <span className="text-neon-green">Soporte:</span> soporte@pixelzone.com / soporte123
               </div>
             </div>
           </div>

@@ -1,37 +1,72 @@
 export const proveedores = [
   {
     id: 1,
-    nombre: "TechGaming S.A.",
-    contacto: "techgaming@ejemplo.com",
-    productos: ["Mouse", "Teclado", "Audífonos"],
-    estadoPedido: "Entregado"
+    nombre: "Carlos Mendoza",
+    empresa: "TechSupply SAC",
+    ruc: "20512345678",
+    email: "proveedor@pixelzone.com",
+    teléfono: "987-654-321",
+    dirección: "Av. Tecnología 123, San Isidro, Lima",
+    categorías: ["Mouse", "Teclado", "Audífonos"],
+    precioCompraPromedio: 120.50,
+    tiempoEntrega: 3,
+    calificación: 4.8,
+    estado: "activo"
   },
   {
     id: 2,
-    nombre: "RGB Proveedores",
-    contacto: "rgb@ejemplo.com",
-    productos: ["Iluminación", "Mousepad"],
-    estadoPedido: "En camino"
+    nombre: "María González",
+    empresa: "GamerGear EIRL",
+    ruc: "20509876543",
+    email: "maria@gamergear.com",
+    teléfono: "912-345-678",
+    dirección: "Jr. Gaming 456, Miraflores, Lima",
+    categorías: ["Silla", "Iluminación", "Mando"],
+    precioCompraPromedio: 350.00,
+    tiempoEntrega: 5,
+    calificación: 4.5,
+    estado: "activo"
   },
   {
     id: 3,
-    nombre: "Gamer Supply Co.",
-    contacto: "gamersupply@ejemplo.com",
-    productos: ["Silla"],
-    estadoPedido: "Pendiente"
+    nombre: "Roberto Silva",
+    empresa: "HardwarePro SAC",
+    ruc: "20511223344",
+    email: "roberto@hardwarepro.com",
+    teléfono: "999-888-777",
+    dirección: "Av. Central 789, Surco, Lima",
+    categorías: ["RAM", "Almacenamiento", "Tarjetas gráficas"],
+    precioCompraPromedio: 250.75,
+    tiempoEntrega: 2,
+    calificación: 4.9,
+    estado: "activo"
   },
   {
     id: 4,
-    nombre: "Periféricos Elite",
-    contacto: "perifericos@ejemplo.com",
-    productos: ["Mouse", "Audífonos", "Teclado"],
-    estadoPedido: "Entregado"
+    nombre: "Lucía Torres",
+    empresa: "StreamTech EIRL",
+    ruc: "20555443322",
+    email: "lucia@streamtech.com",
+    teléfono: "933-221-100",
+    dirección: "Calle Streaming 012, San Borja, Lima",
+    categorías: ["Monitores gaming", "Webcams", "Micrófonos"],
+    precioCompraPromedio: 450.00,
+    tiempoEntrega: 4,
+    calificación: 4.6,
+    estado: "inactivo"
   },
   {
     id: 5,
-    nombre: "RGB World",
-    contacto: "rgbworld@ejemplo.com",
-    productos: ["Iluminación"],
-    estadoPedido: "En camino"
+    nombre: "Diego Fernández",
+    empresa: "ConsoleWorld SAC",
+    ruc: "20566778899",
+    email: "diego@consoleworld.com",
+    teléfono: "966-554-433",
+    dirección: "Av. Consolas 345, La Victoria, Lima",
+    categorías: ["Consolas", "Mandos y Controles"],
+    precioCompraPromedio: 800.00,
+    tiempoEntrega: 6,
+    calificación: 4.7,
+    estado: "activo"
   }
 ];

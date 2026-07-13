@@ -9,6 +9,10 @@ import { PedidosProvider } from './context/PedidosContext.jsx'
 import { ClientsProvider } from './context/ClientsContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
+import { ProveedoresProvider } from './context/ProveedoresContext.jsx'
+import { MarketingProvider } from './context/MarketingContext.jsx'
+import { LogisticaProvider } from './context/LogisticaContext.jsx'
+import { SoporteProvider } from './context/SoporteContext.jsx'
 import { useContext } from 'react'
 import { PedidosContext } from './context/PedidosContext.jsx'
 import { AuthContext } from './context/AuthContext.jsx'
@@ -18,11 +22,15 @@ const AppWithProviders = () => {
     <ToastProvider>
       <AuthProvider>
         <ProductsProvider>
-          <CartProvider>
+          <ProveedoresProvider>
             <PedidosProvider>
-              <ClientsProviderWrapper />
+              <LogisticaProvider>
+                <CartProvider>
+                  <ClientsProviderWrapper />
+                </CartProvider>
+              </LogisticaProvider>
             </PedidosProvider>
-          </CartProvider>
+          </ProveedoresProvider>
         </ProductsProvider>
       </AuthProvider>
     </ToastProvider>
@@ -33,7 +41,11 @@ const ClientsProviderWrapper = () => {
   const { pedidos } = useContext(PedidosContext);
   return (
     <ClientsProvider pedidos={pedidos}>
-      <WishlistProviderWrapper />
+      <MarketingProvider>
+        <SoporteProvider>
+          <WishlistProviderWrapper />
+        </SoporteProvider>
+      </MarketingProvider>
     </ClientsProvider>
   );
 };
