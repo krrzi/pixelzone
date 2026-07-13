@@ -100,8 +100,8 @@ const Navbar = () => {
           <Link to="/admin/productos" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Productos</Link>
           <Link to="/admin/clientes" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Clientes</Link>
           <Link to="/admin/finanzas" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Finanzas</Link>
-          <Link to="/admin/proveedores" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">RRHH</Link>
-          <Link to="/admin/inventario" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Reportes</Link>
+          <Link to="/admin/rrhh" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">RRHH</Link>
+          <Link to="/admin/reportes" className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Reportes</Link>
           <button onClick={handleLogout} className="text-white hover:text-neon-green transition-colors duration-300 font-inter">Cerrar Sesión</button>
         </>
       );

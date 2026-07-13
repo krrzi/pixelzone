@@ -13,6 +13,7 @@ import { ProveedoresProvider } from './context/ProveedoresContext.jsx'
 import { MarketingProvider } from './context/MarketingContext.jsx'
 import { LogisticaProvider } from './context/LogisticaContext.jsx'
 import { SoporteProvider } from './context/SoporteContext.jsx'
+import { RRHHProvider } from './context/RRHHContext.jsx'
 import { useContext } from 'react'
 import { PedidosContext } from './context/PedidosContext.jsx'
 import { AuthContext } from './context/AuthContext.jsx'
@@ -43,7 +44,9 @@ const ClientsProviderWrapper = () => {
     <ClientsProvider pedidos={pedidos}>
       <MarketingProvider>
         <SoporteProvider>
-          <WishlistProviderWrapper />
+          <RRHHProvider>
+            <WishlistProviderWrapper />
+          </RRHHProvider>
         </SoporteProvider>
       </MarketingProvider>
     </ClientsProvider>

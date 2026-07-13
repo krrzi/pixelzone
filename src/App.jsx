@@ -24,6 +24,8 @@ import PedidosAdmin from './pages/admin/PedidosAdmin';
 import PerfilAdmin from './pages/admin/PerfilAdmin';
 import ClientesAdmin from './pages/admin/ClientesAdmin';
 import FinanzasAdmin from './pages/admin/FinanzasAdmin';
+import RRHHDashboard from './pages/admin/RRHHDashboard';
+import ReportesDashboard from './pages/admin/ReportesDashboard';
 
 // Proveedor pages
 import ProveedorDashboard from './pages/proveedor/ProveedorDashboard';
@@ -156,13 +158,29 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            <Route 
-              path="/admin/finanzas" 
+            <Route
+              path="/admin/finanzas"
               element={
                 <ProtectedRoute roles={['admin']}>
                   <FinanzasAdmin />
                 </ProtectedRoute>
-              } 
+              }
+            />
+            <Route
+              path="/admin/rrhh"
+              element={
+                <ProtectedRoute roles={['admin']}>
+                  <RRHHDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/reportes"
+              element={
+                <ProtectedRoute roles={['admin']}>
+                  <ReportesDashboard />
+                </ProtectedRoute>
+              }
             />
 
             {/* Protected proveedor routes */}
